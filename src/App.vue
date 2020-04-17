@@ -11,11 +11,16 @@
 
 <script>
 
+import {mapActions} from 'vuex';
 
 export default {
   name: "App",
-  components: {
-
+  components: {  },
+      mounted (){
+        this.fetchMovies()
+    },
+  methods: {
+    ...mapActions ('movies', ['fetchMovies'])
   }
 };
 </script>
