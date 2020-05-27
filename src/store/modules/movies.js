@@ -10,7 +10,7 @@ function serializeResponse(movies){
   }, {});
 }
 
-const {MOVIES} = mutations;
+const {MOVIES, CURRENT_PAGE} = mutations;
 
 const movieStore = {
   namespaced: true,
@@ -22,13 +22,17 @@ const movieStore = {
   },
   getters: {
     slicedIDs: ({top25IDs}) => (from, to) => top25IDs.slice(from, to),
-    currenPage: ({currentPage}) => (currentPage),
+    currentPage: ({currentPage}) => (currentPage),
     moviesPerPage: ({moviesPerPage}) => (moviesPerPage),
     moviesList: ({movies}) => (movies),
+    moviesLenght: ({top25IDs}) => Object.keys(top25IDs).length
   },
   mutations: {
     [MOVIES](state, value) {
       state.movies = value;
+    },
+    [CURRENT_PAGE](state, value) {
+      state.currentPage = value;
     }
   },
   actions: {
@@ -40,9 +44,9 @@ const movieStore = {
     },
     async fetchMovies({getters, commit}) {
       try{
-        const { currenPage, moviesPerPage, slicedIDs } = getters;
-        const from = moviesPerPage * currenPage - moviesPerPage;
-        const to = moviesPerPage * currenPage;
+        const { currentPage, moviesPerPage, slicedIDs } = getters;
+        const from = moviesPerPage * currentPage - moviesPerPage;
+        const to = moviesPerPage * currentPage;
         const moviesToFetch = slicedIDs(from, to);
         // console.log(moviesToFetch);
 
@@ -56,7 +60,11 @@ const movieStore = {
         commit(MOVIES, movies);
       } catch(err) {
         console.log(err);
-      };
+      }
+    },
+    changeCurrentPage({commit, dispatch}, page) {
+      commit(CURRENT_PAGE, page);
+      dispatch('fetchMovies');
     }
   }
 };

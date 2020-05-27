@@ -12,7 +12,7 @@ export default {
     }
   },
   data: () => ({
-    //defaultPosterBg: 'linear-gradient(45deg, rgb(0, 3, 38) 0%, rgb(87, 15, 117) 100%);',
+    defaultPosterBg: 'linear-gradient(45deg, rgb(0, 3, 38) 0%, rgb(87, 15, 117) 100%)',
 
  }),
   computed: {
@@ -23,7 +23,7 @@ export default {
     }
     ,
     posterBg() {
-      return this.poster ? `url(${this.poster})`: '';
+      return this.poster ? `url(${this.poster})`: this.defaultPosterBg;
     }
   },
 };
@@ -39,8 +39,8 @@ export default {
   z-index: -1;
   background-size: cover;
   background-position: center;
-  transition: all 0,2s ease;
-  background-image: linear-gradient(45deg, rgb(0, 3, 38) 5%, rgb(87, 15, 117) 100%);
+  transition: all 0.3s ease;
+  /* background-image: linear-gradient(45deg, rgb(0, 3, 38) 5%, rgb(87, 15, 117) 100%); */
   }
 
   .poster-page-bg::before{
